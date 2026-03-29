@@ -206,19 +206,21 @@ function get_file_users(file_obj, users = {}, following_inheritance = false) {
 
 // Get the list of ACEs for the given file object and user name.
 // recursively follow inheritance if appropriate; following_inheritance flag indicates that these are already inherited permissions.
-function get_aces_file_user(file_obj, username, following_inheritance = false) {
+// Added inherited_from to track the origin of inheritance
+function get_aces_file_user(file_obj, username, following_inheritance = false, inherited_from = null) {
     let aces = [];
     for (let ace of file_obj.acl) {
         if (get_user_name(ace.who) === username) {
             aces.push({
                 ace: ace,
                 inherited: following_inheritance,
+                inherited_from: following_inheritance ? inherited_from : "(not inherited)"
             });
         }
     }
     // add inherited ACEs, if appropriate
     if (file_obj.using_permission_inheritance && file_obj.parent !== null) {
-        return aces.concat(get_aces_file_user(file_obj.parent, username, true));
+        return aces.concat(get_aces_file_user(file_obj.parent, username, true, file_obj.parent.filename));
     } else {
         // just return direct ACEs
         return aces;
@@ -241,9 +243,11 @@ function get_total_permissions(file_obj, username) {
                 ace_item.inherited
             )
                 // if not already set, OR should override with inherited.
+                // Store inherited_from source for UI representation
                 total_permissions.allow[ace_item.ace.permission] = {
                     set: true,
                     inherited: ace_item.inherited,
+                    inherited_from: ace_item.inherited_from
                 };
         } else {
             // this is a 'deny' ace
@@ -255,6 +259,7 @@ function get_total_permissions(file_obj, username) {
                 total_permissions.deny[ace_item.ace.permission] = {
                     set: true,
                     inherited: ace_item.inherited,
+                    inherited_from: ace_item.inherited_from
                 };
         }
     }
@@ -276,17 +281,20 @@ function get_grouped_permissions(file_obj, username) {
             // if any of the permission listed in that group are not listed in the total permissions, then we will not check the checkbox for that group.
             let should_check = true;
             let has_inherited = false;
+            let inherited_from = "(not inherited)";
             for (let perm of permission_groups[groupname]) {
                 if (!total_permissions[ace_type][perm]) {
                     should_check = false;
                 } else if (total_permissions[ace_type][perm].inherited) {
                     has_inherited = true;
+                    inherited_from = total_permissions[ace_type][perm].inherited_from;
                 }
             }
             if (should_check) {
                 grouped_permissions[ace_type][groupname] = {
                     set: true,
                     inherited: has_inherited,
+                    inherited_from: inherited_from
                 };
                 // if we've checked the box, mark each permission in this group as "used" for some permission group - if there are any "unused" permissions, then we will check "special permissions"
                 for (let perm of permission_groups[groupname]) {
@@ -300,11 +308,13 @@ function get_grouped_permissions(file_obj, username) {
     for (let ace_type in total_permissions) {
         let need_special = false;
         let special_inherited = false;
+        let special_inherited_from = "(not inherited)";
         for (let perm in total_permissions[ace_type]) {
             if (!total_permissions[ace_type][perm].used) {
                 need_special = true;
                 if (total_permissions[ace_type][perm].inherited) {
                     special_inherited = true;
+                    special_inherited_from = total_permissions[ace_type][perm].inherited_from;
                 }
             }
         }
@@ -312,6 +322,7 @@ function get_grouped_permissions(file_obj, username) {
             grouped_permissions[ace_type].Special_permissions = {
                 set: true,
                 inherited: special_inherited,
+                inherited_from: special_inherited_from
             };
         }
     }

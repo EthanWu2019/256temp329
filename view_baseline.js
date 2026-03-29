@@ -248,6 +248,7 @@ function open_advanced_dialog(file_path) {
 
 
     // permissions list for permissions tab:
+    // Display origin inherited_from when presenting properties
     let users = get_file_users(file_obj)
     for(let u in users) {
         let grouped_perms = get_grouped_permissions(file_obj, u)
@@ -257,7 +258,7 @@ function open_advanced_dialog(file_path) {
                     <td id="adv_perm_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${ace_type}</td>
                     <td id="adv_perm_${file_obj.filename}__${u}_${ace_type}_${perm}_name">${u}</td>
                     <td id="adv_perm_${file_obj.filename}__${u}_${ace_type}_${perm}_permission">${perm}</td>
-                    <td id="adv_perm_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${grouped_perms[ace_type][perm].inherited?"Parent Object":"(not inherited)"}</td>
+                    <td id="adv_perm_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${grouped_perms[ace_type][perm].inherited ? "Parent Object: " + grouped_perms[ace_type][perm].inherited_from : "(not inherited)"}</td>
                 </tr>`)
             }
         }

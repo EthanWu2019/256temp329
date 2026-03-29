@@ -282,10 +282,36 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     define_attribute_observer(group_table, 'username', update_group_checkboxes)
     define_attribute_observer(group_table, 'filepath', update_group_checkboxes)
 
-    //Update permissions when checkbox is clicked:
+    // Update permissions when checkbox is clicked
+    // Added safety check for overriding special permissions
     group_table.find('.groupcheckbox').change(function(){
-        toggle_permission_group( group_table.attr('filepath'), group_table.attr('username'), $(this).attr('group'), $(this).attr('ptype'), $(this).prop('checked'))
-        update_group_checkboxes()// reload checkboxes
+        let checkbox = $(this);
+        let is_checked = checkbox.prop('checked');
+        let filepath = group_table.attr('filepath');
+        let username = group_table.attr('username');
+        let ptype = checkbox.attr('ptype');
+        let group = checkbox.attr('group');
+        
+        let grouped_perms = get_grouped_permissions(path_to_file[filepath], username);
+        if (grouped_perms[ptype].Special_permissions && grouped_perms[ptype].Special_permissions.set) {
+            $(`<div title="Warning" class="warning-text">Modifying this permission will overwrite existing special permissions. This cannot be undone without using the Advanced Security Settings. Do you want to proceed?</div>`).dialog({
+                modal: true,
+                buttons: {
+                    "Proceed": function() {
+                        toggle_permission_group(filepath, username, group, ptype, is_checked);
+                        update_group_checkboxes(); // reload checkboxes
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function() {
+                        update_group_checkboxes(); // revert checkbox visual
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        } else {
+            toggle_permission_group(filepath, username, group, ptype, is_checked);
+            update_group_checkboxes(); // reload checkboxes
+        }
     })
 
     return group_table
@@ -411,7 +437,7 @@ function define_file_permission_groups_list(id_prefix){
                             <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${ace_type}</td>
                             <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_name">${u}</td>
                             <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_permission">${perm}</td>
-                            <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${grouped_perms[ace_type][perm].inherited?"Parent Object":"(not inherited)"}</td>
+                            <td id="${id_prefix}_${file_obj.filename}__${u}_${ace_type}_${perm}_type">${grouped_perms[ace_type][perm].inherited ? "Parent Object: " + grouped_perms[ace_type][perm].inherited_from : "(not inherited)"}</td>
                         </tr>`)
                     }
                 }
