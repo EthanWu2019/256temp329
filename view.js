@@ -13,7 +13,7 @@ function make_file_element(file_obj) {
             <h3 id="${file_hash}_header">
                 <span class="oi oi-folder" id="${file_hash}_icon"/> ${file_obj.filename} 
                 <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
-                    <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> 
+                    <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> Open Permissions
                 </button>
             </h3>
         </div>`)
@@ -33,7 +33,7 @@ function make_file_element(file_obj) {
         return $(`<div class='file'  id="${file_hash}_div">
             <span class="oi oi-file" id="${file_hash}_icon"/> ${file_obj.filename}
             <button class="ui-button ui-widget ui-corner-all permbutton" path="${file_hash}" id="${file_hash}_permbutton"> 
-                <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> 
+                <span class="oi oi-lock-unlocked" id="${file_hash}_permicon"/> Open Permissions
             </button>
         </div>`)
     }
@@ -75,6 +75,7 @@ $('#html-loc').find('*').uniqueId()
 
 
 // -- Code that runs after everything is loaded
-$(".permbutton").append("Open Permissions");
-$("#perm_add_user_button").html("Add New User");
-$("#perm_remove_user").html("Remove User");
+// Modified for Tinkering: Commented out the override scripts to prevent them from breaking the new button labels we added in view_baseline.js
+// $(".permbutton").append("Open Permissions");
+// $("#perm_add_user_button").html("Add New User");
+// $("#perm_remove_user").html("Remove User");

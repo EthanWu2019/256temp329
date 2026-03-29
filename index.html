@@ -86,6 +86,11 @@
                 <div title="Permission Entry" id="permentry">
                     <div id="perm_entry_inheritance_explanation" style="display:none" class="section">This permission is
                         inherited from the parent object. Make changes here to override the inherited permissions.</div>
+                    
+                    <div class="section" style="font-size: 0.9em; color: #333; background: #eef; padding: 8px; border: 1px solid #bce8f1; border-radius: 4px; margin-bottom: 5px;">
+                        <strong>Note:</strong> Modify includes Write. Read & Execute includes Read.
+                    </div>
+
                     <span id="perm_entry_name_text">Name: </span>
                     <span id="perm_entry_username" class="ui-widget-content section"
                         style="width:200px;display:inline-block;"></span>
@@ -111,6 +116,12 @@
                             <div id="adv_perm_object_name" class="section">Object Name: <span
                                     id="adv_perm_filepath"></span></div>
                             <div id="adv_perm_entries_text">Permission entries:</div>
+                            
+                            <div class="section" style="font-size: 0.9em; color: #333; background: #eef; padding: 8px; border: 1px solid #bce8f1; border-radius: 4px; margin-bottom: 5px;">
+                                <strong>Permission Subsets Guide:</strong><br/>
+                                • <em>Full Control</em> > <em>Modify</em> > <em>Read & Execute</em> > <em>Read</em>
+                            </div>
+
                             <div id="adv_perm_table_container" style="height:100px;overflow-y:scroll"
                                 class="ui-widget-content section">
                                 <table id="adv_perm_table" width="100%">

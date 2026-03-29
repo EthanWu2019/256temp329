@@ -48,7 +48,8 @@ file_permission_users.css({
 })
 
 // Make button to add a new user to the list:
-perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add...', on_user_change = function(selected_user){
+// Added for Tinkering: Change label to 'Add User/Group...'
+perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add User/Group...', on_user_change = function(selected_user){
     // console.log("add...")
     let filepath = perm_dialog.attr('filepath')
     if(selected_user && (selected_user.length > 0) && (selected_user in all_users)) { // sanity check that a user is actually selected (and exists)
@@ -121,7 +122,8 @@ are_you_sure_dialog.text('Do you want to remove permissions for this user?')
 
 // Make actual "remove" button:
 // Added 'btn-danger' class to highlight destructive action for Risk Aversion users
-perm_remove_user_button  = $('<button id="perm_remove_user" class="ui-button ui-widget ui-corner-all btn-danger">Remove</button>')
+// Added for Tinkering: Change label to 'Remove User/Group'
+perm_remove_user_button  = $('<button id="perm_remove_user" class="ui-button ui-widget ui-corner-all btn-danger">Remove User/Group</button>')
 perm_remove_user_button.click(function(){
     // Get the current user and filename we are working with:
     let selected_username = file_permission_users.attr('selected_item')
@@ -152,6 +154,11 @@ perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
 perm_dialog.append(grouped_permissions)
+
+// Added for Tinkering/Risk Aversion: Document permission subsets
+permission_subset_expl_div = $('<div id="permdialog_subset_explanation" class="section info-text" style="font-size: 0.9em; color: #333; background: #eef; padding: 8px; border: 1px solid #bce8f1; border-radius: 4px; margin-top: 10px; margin-bottom: 10px;"><strong>Permission Subsets:</strong><br/>- <em>Full Control</em> includes all permissions.<br/>- <em>Modify</em> includes Write, Read & Execute.<br/>- <em>Read & Execute</em> includes Read.</div>')
+perm_dialog.append(permission_subset_expl_div)
+
 perm_dialog.append(advanced_expl_div)
 
 // --- Additional logic for reloading contents when needed: ---
