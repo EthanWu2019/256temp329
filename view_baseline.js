@@ -120,7 +120,8 @@ let are_you_sure_dialog = define_new_dialog('are_you_sure_dialog', "Are you sure
 are_you_sure_dialog.text('Do you want to remove permissions for this user?')
 
 // Make actual "remove" button:
-perm_remove_user_button  = $('<button id="perm_remove_user" class="ui-button ui-widget ui-corner-all">Remove</button>')
+// Added 'btn-danger' class to highlight destructive action for Risk Aversion users
+perm_remove_user_button  = $('<button id="perm_remove_user" class="ui-button ui-widget ui-corner-all btn-danger">Remove</button>')
 perm_remove_user_button.click(function(){
     // Get the current user and filename we are working with:
     let selected_username = file_permission_users.attr('selected_item')
@@ -353,7 +354,8 @@ $('#adv_perm_inheritance').change(function(){
     }
     else {
         // has just been turned off - pop up dialog with add/remove/cancel
-        $(`<div id="add_remove_cancel" title="Security">
+        // Added 'warning-text' class to make the warning prominent for Risk Aversion
+        $(`<div id="add_remove_cancel" title="Security" class="warning-text">
             Warning: if you proceed, inheritable permissions will no longer propagate to this object.<br/>
             - Click Add to convert and add inherited parent permissions as explicit permissions on this object<br/>
             - Click Remove to remove inherited parent permissions from this object<br/>
@@ -409,7 +411,8 @@ $('#adv_perm_replace_child_permissions').change(function(){
         // we only care when it's been checked (nothing happens on uncheck) (this should really not be a checkbox...)
         let filepath = $('#advdialog').attr('filepath')
         let file_obj = path_to_file[filepath]
-        $(`<div id="replace_perm_dialog" title="Security">
+        // Added 'warning-text' class to emphasize destructive action for Risk Aversion
+        $(`<div id="replace_perm_dialog" title="Security" class="warning-text">
             This will replace explicitly defined permissions on all descendants of this object with inheritable permissions from ${file_obj.filename}.<br/>
             Do you wish to continue?
         </div>`).dialog({

@@ -36,3 +36,25 @@
 .no-close .ui-dialog-titlebar-close {
     display: none;
 }
+
+/* --- Added for Risk Aversion: Highlight dangerous actions --- */
+.btn-danger {
+    background-color: #ff4d4d !important;
+    color: white !important;
+    border: 1px solid #cc0000 !important;
+}
+
+.btn-danger:hover {
+    background-color: #cc0000 !important;
+}
+
+/* Added for Risk Aversion: Make warning text stand out */
+.warning-text {
+    color: #cc0000;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #ffeeee;
+    border: 1px solid #cc0000;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}

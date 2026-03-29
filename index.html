@@ -27,9 +27,7 @@
 
         <div id="mturk-top-banner-drop-down-content">
             <p id="scenario_context">
-                <!-- The user <code>employee3</code> has recently been fired.
-                Please remove this user entirely from the permission settings for <code>important_file.txt</code>. -->
-            </p>
+                </p>
             <br />
             <form action="https://www.mturk.com/mturk/externalSubmit" id="mturk-submit-form" method="POST">
                 <input id="assignment-id" name="assignmentId" type="hidden" />
@@ -84,10 +82,7 @@
         </div>
         <div id="wrapper">
             <div data-app="gender-mag" data-mode="tracker" id="html-loc" data-tag="">
-                <!-- div where file and folder structure will be generated:-->
                 <div id="filestructure"></div>
-                <!-- structure for Permission Entry dialog: -->
-
                 <div title="Permission Entry" id="permentry">
                     <div id="perm_entry_inheritance_explanation" style="display:none" class="section">This permission is
                         inherited from the parent object. Make changes here to override the inherited permissions.</div>
@@ -103,7 +98,6 @@
                         </tr>
                     </table>
                 </div>
-                <!-- structure for the Advanced dialog: -->
                 <div title="Advanced Security Settings" id="advdialog" style="overflow:hidden">
                     <div id="advtabs">
                         <ul id="advtabs_titles">
@@ -138,7 +132,7 @@
                                 <input type="checkbox" id="adv_perm_replace_child_permissions" name="replace_child">
                                 <label for="adv_perm_replace_child_permissions"
                                     id="adv_perm_replace_child_permissions_label">Replace all child object permissions
-                                    with inheritable permissions from this object</label>
+                                    with inheritable permissions from this object <strong style="color:#cc0000;">(Warning: Overwrites existing permissions)</strong></label>
                             </div>
                         </div>
                         <div id="adv_owner_tab">
@@ -169,7 +163,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- structure for the User Select dialog: -->
                 <div title="Select Users or Groups" id="user_select_dialog">
                     <div id="user_select_container"></div>
                 </div>
